@@ -11,14 +11,18 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using TaskManagement.ApiFramework.ServiceCollections;
+using TaskManagement.ApiFramework.ConfigMiddleware;
+using TaskManagement.Common.Utils;
 
 namespace TaskManagement.Api
 {
     public class Startup
     {
+        private readonly SiteSettings _siteSetting;
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            _siteSetting = configuration.GetSection(nameof(SiteSettings)).Get<SiteSettings>();
         }
 
         public IConfiguration Configuration { get; }
@@ -26,6 +30,8 @@ namespace TaskManagement.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.Configure<SiteSettings>(Configuration.GetSection(nameof(SiteSettings)));
+
             services.AddControllers();
 
             services.AddDependency();
@@ -42,6 +48,8 @@ namespace TaskManagement.Api
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseCustomException();
 
             app.UseHttpsRedirection();
 

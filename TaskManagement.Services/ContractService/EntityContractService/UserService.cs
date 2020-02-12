@@ -7,6 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
+using Microsoft.Extensions.Logging;
 using TaskManagement.Data;
 using TaskManagement.Data.Contracts;
 using TaskManagement.Data.Contracts.EntityContract;
@@ -15,39 +16,62 @@ using TMS.Data.Services;
 
 namespace TaskManagement.Services.ContractService.EntityContractService
 {
-    public class UserService:GenericRepository<User>,IUserRepository
+    public class UserService : GenericRepository<User>, IUserRepository
     {
-        public UserService(DbContext dbContext) : base(dbContext)
+        private readonly IUnitOfWork unitOfWork;
+        private readonly IJwtRpository jwtRpository;
+        private ILogger<UserService> logger;
+        public UserService(MyAppContext dbContext, IUnitOfWork unitOfWork, IJwtRpository jwtRpository,ILogger<UserService> logger) : base(dbContext)
         {
-        }
-         
-        public async Task<bool> LoginByMobile(string MobileNumber, string Password,CancellationToken cancellationToken)
-        {
-            var user = await Table.Where(x => x.MobileNumber == MobileNumber && x.Password == Password)
-                .SingleOrDefaultAsync(cancellationToken);
-
-            if (user!=null)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-
+            this.unitOfWork = unitOfWork;
+            this.jwtRpository = jwtRpository;
+            this.logger = logger;
         }
 
-        public async Task<bool> LoginByEmail(string Email, string Password, CancellationToken cancellationToken)
+        public async Task<object> LoginByMobile(User user, CancellationToken cancellationToken)
         {
-            var user =await Table.Where(x => x.Email == Email && x.Password == Password)
+            try
+            {
+                if (user==null)
+                {
+                    throw new Exception("User Is Null");
+                }
+                var userResult = await unitOfWork.UserService.Table.Where(x => x.MobileNumber == user.MobileNumber && x.Password == user.Password).SingleOrDefaultAsync(cancellationToken);
+
+                if (userResult != null)
+                {
+
+                    var token = await jwtRpository.GenerateTokenAsync(userResult);
+
+                    return token;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch ( Exception e)
+            {
+                logger.LogInformation(e.Message);
+                return null;
+            }
+
+        }
+
+        public async Task<object> LoginByEmail(User user, CancellationToken cancellationToken)
+        {
+            var userResult = await Table.Where(x => x.Email == user.Email && x.Password == user.Password)
                 .SingleOrDefaultAsync(cancellationToken);
             if (user != null)
             {
-                return true;
+                var token = await jwtRpository.GenerateTokenAsync(user);
+
+
+                return token;
             }
             else
             {
-                return false;
+                return null;
             }
         }
     }

@@ -61,10 +61,10 @@ namespace TaskManagement.Services.ContractService
         {
             var list = new List<Claim>()
             {
-                new Claim(ClaimTypes.Name, user.FirstName),
-                new Claim(ClaimTypes.NameIdentifier, user.ID.ToString()),
-                new Claim(ClaimTypes.MobilePhone, user.MobileNumber),
-                new Claim(ClaimTypes.Email,user.Email)
+                new Claim(ClaimTypes.Name, user.FirstName??null),
+                new Claim(ClaimTypes.NameIdentifier, user.ID.ToString()??null),
+                new Claim(ClaimTypes.MobilePhone, user.MobileNumber??null),
+                new Claim(ClaimTypes.Email,user.Email??null)
             };
 
             return list;
