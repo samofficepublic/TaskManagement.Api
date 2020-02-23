@@ -37,11 +37,13 @@ namespace TaskManagement.ApiFramework.ConfigMiddleware
             }
             catch (Exception ex)
             {
-                writeToResponse(ex);
+                _ = writeToResponse(ex);
             }
+
             async Task writeToResponse(Exception ex)
             {
-                await context.Response.WriteAsync("this is a middleware message"+ex.Message);
+                _logger.LogTrace("this is a mistack");
+                await context.Response.WriteAsync("this is a middleware message "+ex.Message);
             }
         }
     }

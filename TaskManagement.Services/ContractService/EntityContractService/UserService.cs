@@ -52,7 +52,6 @@ namespace TaskManagement.Services.ContractService.EntityContractService
             }
             catch ( Exception e)
             {
-                logger.LogInformation(e.Message);
                 return null;
             }
 
@@ -60,13 +59,16 @@ namespace TaskManagement.Services.ContractService.EntityContractService
 
         public async Task<object> LoginByEmail(User user, CancellationToken cancellationToken)
         {
-            var userResult = await Table.Where(x => x.Email == user.Email && x.Password == user.Password)
-                .SingleOrDefaultAsync(cancellationToken);
-            if (user != null)
+            if (user==null)
             {
-                var token = await jwtRpository.GenerateTokenAsync(user);
+                throw new Exception("User Is Null");
+            }
 
+            var userResult = await unitOfWork.UserService.Table.Where(x => x.Email == user.Email && x.Password == user.Password).SingleOrDefaultAsync(cancellationToken);
 
+            if (userResult != null)
+            {
+                var token = await jwtRpository.GenerateTokenAsync(userResult);
                 return token;
             }
             else

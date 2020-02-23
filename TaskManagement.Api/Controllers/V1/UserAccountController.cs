@@ -25,10 +25,11 @@ namespace TaskManagement.Api.Controllers.V1
             _jwtRpository = jwtRpository;
             _unitOfWork = unitOfWork;
             _userRepository = userRepository;
+            _logger = logger;
         }
         [HttpPost("[action]")]
         [AllowAnonymous]
-        public async Task<ActionResult> Token([FromBody]LoginDto login, CancellationToken cancellation)
+        public async Task<ActionResult> TokenByMobile([FromBody]MobileLoginDto login, CancellationToken cancellation)
         {
 
             if (login != null)
@@ -41,10 +42,35 @@ namespace TaskManagement.Api.Controllers.V1
                 var token = await _userRepository.LoginByMobile(user, cancellation);
                 if (token == null)
                 {
-                    _logger.LogError("this my Error >>>>>>");
+                    _logger.LogTrace("this my Error >>>>>>");
                     return Unauthorized();
                 }
                 
+                return new JsonResult(token);
+            }
+            return Unauthorized();
+
+        }
+
+        [HttpPost("[action]")]
+        [AllowAnonymous]
+        public async Task<ActionResult> TokenByEmail([FromBody]EmailLoginDto login, CancellationToken cancellation)
+        {
+
+            if (login != null)
+            {
+                var user = new User()
+                {
+                    Email = login.Email,
+                    Password = login.Password
+                };
+                var token = await _userRepository.LoginByEmail(user, cancellation);
+                if (token == null)
+                {
+                    _logger.LogTrace("this my Error >>>>>>");
+                    return Unauthorized();
+                }
+
                 return new JsonResult(token);
             }
             return Unauthorized();

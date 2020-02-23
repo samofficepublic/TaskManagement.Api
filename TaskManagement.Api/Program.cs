@@ -42,6 +42,6 @@ namespace TaskManagement.Api
                 logging.ClearProviders();
                 logging.SetMinimumLevel(LogLevel.Trace);
             })
-            .UseNLog();
+            .UseNLog(); 
     }
 }

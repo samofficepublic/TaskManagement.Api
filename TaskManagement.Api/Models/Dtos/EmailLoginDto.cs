@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 
 namespace TaskManagement.Api.Models.Dtos
 {
-    public class MobileLoginDto
+    public class EmailLoginDto
     {
-        public string MobileNumber { get; set; }
+        public string Email { get; set; }
         public string Password { get; set; }
     }
 }
