@@ -6,6 +6,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.IdentityModel.Logging;
 using TaskManagement.Common.Utils;
 using TaskManagement.Data.Contracts;
 using TaskManagement.Data.Models;
@@ -24,6 +25,10 @@ namespace TaskManagement.Services.ContractService
 
         public async Task<AccessToken> GenerateTokenAsync(User user)
         {
+            try
+            {
+
+                IdentityModelEventSource.ShowPII = true;
             var secretKey = Encoding.UTF8.GetBytes(_siteSetting.jwtSettings.SecretKey); // longer that 16 character
             var signingCredentials = new SigningCredentials(new SymmetricSecurityKey(secretKey), SecurityAlgorithms.HmacSha256Signature);
 
@@ -52,9 +57,15 @@ namespace TaskManagement.Services.ContractService
 
             var securityToken = tokenHandler.CreateJwtSecurityToken(descriptor);
 
-            //string encryptedJwt = tokenHandler.WriteToken(securityToken);
-
-            return new AccessToken(securityToken);
+                //string encryptedJwt = tokenHandler.WriteToken(securityToken);
+                return new AccessToken(securityToken);
+            }
+            catch (Exception e)
+            {
+                
+                throw;
+            }
+            
         }
 
         private async Task<IEnumerable<Claim>> _getClaimsAsync(User user)

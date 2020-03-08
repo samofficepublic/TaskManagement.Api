@@ -6,6 +6,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using TaskManagement.ApiFramework.Api;
+using TaskManagement.Common.Enums;
 
 namespace TaskManagement.ApiFramework.ConfigMiddleware
 {
@@ -35,15 +38,17 @@ namespace TaskManagement.ApiFramework.ConfigMiddleware
             {
                 await _next(context);
             }
-            catch (Exception ex)
+            catch (ApiException ex)
             {
                 _ = writeToResponse(ex);
             }
 
-            async Task writeToResponse(Exception ex)
+            async Task writeToResponse(ApiException ex)
             {
-                _logger.LogTrace("this is a mistack");
-                await context.Response.WriteAsync("this is a middleware message "+ex.Message);
+                _logger.LogTrace("Exception was thrown --> at : " + DateTime.Now + Environment.NewLine + ex.Message +
+                                 Environment.NewLine + ex.StackTrace);
+                context.Response.StatusCode =(int)ex.HttpStatusCode;
+                await context.Response.WriteAsync(ex.Message);
             }
         }
     }

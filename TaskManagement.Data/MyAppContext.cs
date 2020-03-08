@@ -12,10 +12,12 @@ namespace TaskManagement.Data
         {
             base.OnModelCreating(modelBuilder);
             modelBuilder.ApplyConfiguration(new UserConfig());
+            modelBuilder.ApplyConfiguration(new TicketConfig());
         }
 
         #region dbSets
         public DbSet<User> Users { get; set; }
+        public DbSet<Ticket> Tickets { get; set; }
         #endregion
     }
 }

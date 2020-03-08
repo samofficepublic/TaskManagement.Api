@@ -23,6 +23,7 @@ namespace TaskManagement.ApiFramework.ServiceCollections
             services.AddTransient<IJwtRpository, JwtService>();
             services.AddTransient<IUnitOfWork, MyUnitOfWork>();
             services.AddTransient<IUserRepository, UserService>();
+            services.AddTransient<ITicketRepository, TicketService>();
         }
     }
 }

@@ -25,6 +25,10 @@ namespace TaskManagement.Data.Contracts
         void DeleteRange(IEnumerable<TEntity> entities, bool saveNow = true);
         Task DeleteRangeAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken, bool saveNow = true);
         void Detach(TEntity entity);
+
+        IQueryable<TEntity> Get(int page, int pageSize);
+        Task<IQueryable<TEntity>> GetAsync(int page, int pageSize);
+
         TEntity GetById(params object[] ids);
         Task<TEntity> GetByIdAsync(CancellationToken cancellationToken, params object[] ids);
         void LoadCollection<TProperty>(TEntity entity, Expression<Func<TEntity, IEnumerable<TProperty>>> collectionProperty) where TProperty : class;

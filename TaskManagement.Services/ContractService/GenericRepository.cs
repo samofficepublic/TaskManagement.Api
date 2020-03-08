@@ -23,8 +23,13 @@ namespace TMS.Data.Services
             DbContext = dbContext;
             Entities = DbContext.Set<TEntity>(); // City => Cities
         }
-
+         
         #region Async Method
+        public virtual async Task<IQueryable<TEntity>> GetAsync(int page, int pageSize)
+        {
+            return TableNoTracking.GetPaged(page, pageSize).Results;
+        }
+
         public virtual Task<TEntity> GetByIdAsync(CancellationToken cancellationToken, params object[] ids)
         {
             return Entities.FindAsync(ids, cancellationToken).AsTask();
@@ -80,6 +85,11 @@ namespace TMS.Data.Services
         #endregion
 
         #region Sync Methods
+
+        public IQueryable<TEntity> Get(int page, int pageSize)
+        {
+            return TableNoTracking.GetPaged(page, pageSize).Results;
+        }
         public virtual TEntity GetById(params object[] ids)
         {
             return Entities.Find(ids);
@@ -188,6 +198,7 @@ namespace TMS.Data.Services
             if (!reference.IsLoaded)
                 reference.Load();
         }
+
         #endregion
     }
 }

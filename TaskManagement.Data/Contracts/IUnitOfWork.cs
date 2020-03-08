@@ -20,6 +20,7 @@ namespace TaskManagement.Data.Contracts
         #region Contracts
 
         IGenericRepository<User> UserService { get; }
+        IGenericRepository<Ticket> TicketService { get; }
 
         #endregion
     }
