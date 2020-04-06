@@ -9,4 +9,10 @@
     <ProjectReference Include="..\TaskManagement.Data\TaskManagement.Data.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="Microsoft.AspNetCore.Components">
+      <HintPath>C:\Program Files\dotnet\packs\Microsoft.AspNetCore.App.Ref\3.1.0\ref\netcoreapp3.1\Microsoft.AspNetCore.Components.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>

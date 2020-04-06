@@ -89,6 +89,8 @@ namespace TMS.Data.Services
         #region Repositories
         public IGenericRepository<User> UserService =>new GenericRepository<User>(DbContext);
         public IGenericRepository<Ticket> TicketService =>new GenericRepository<Ticket>(DbContext);
+        public  IGenericRepository<Access> AccessService=>new GenericRepository<Access>(DbContext);
+        public IGenericRepository<UserAccess>UserAccessService=>new GenericRepository<UserAccess>(DbContext);
 
         #endregion
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using TaskManagement.Entity.Common;
 
 namespace TaskManagement.Entity.DomainModels
@@ -12,5 +13,7 @@ namespace TaskManagement.Entity.DomainModels
         public string Password { get; set; }
         public DateTime? BirthDay { get; set; }
         public bool IsActive { get; set; }
+
+        public virtual ICollection<UserAccess> Accesses { get; set; }
     }
 }

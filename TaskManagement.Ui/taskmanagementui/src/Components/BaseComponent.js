@@ -7,6 +7,7 @@ import { connect } from "react-redux";
 import Tickets from "./Ticket/Tickets";
 import LoginedNavs from "./Navigations/LoginedNavs";
 import NoLoginedNavs from "./Navigations/NoLoginedNavs";
+import ServiceBroken from "./ServiceBroken/ServiceBroken";
 
 class BaseComponent extends Component {
   GetRoute = () => {
@@ -23,11 +24,12 @@ class BaseComponent extends Component {
           <Route path="/login" component={Login} />
           <Route path="/home" component={Home} />
           <Route path="/Tickets" component={Tickets} />
+          <Route path="/ServiceBroken/:exception" component={ServiceBroken} />
           <Route path="/404" component={NotFound} />
           <Redirect to="/404" />
         </Switch>
       );
-      navs = LoginedNavs();
+      navs = LoginedNavs(); //<LoginedNavs />;
     } else {
       routes = (
         <Switch>
@@ -46,11 +48,11 @@ class BaseComponent extends Component {
   };
 
   render() {
-    console.log("base Rendered...");
+    // console.log("base Rendered...");
 
     const { routes, navs } = this.GetRoute();
 
-    console.log(routes);
+    // console.log(routes);
 
     return (
       <div>

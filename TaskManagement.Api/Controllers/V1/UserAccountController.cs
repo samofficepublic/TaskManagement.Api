@@ -8,6 +8,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using TaskManagement.Api.Models.Dtos;
+using TaskManagement.ApiFramework.Api;
 using TaskManagement.Data.Contracts;
 using TaskManagement.Data.Contracts.EntityContract;
 using TaskManagement.Entity.DomainModels;
@@ -77,5 +78,15 @@ namespace TaskManagement.Api.Controllers.V1
             return Unauthorized();
 
         }
+
+        //[HttpGet("[action]")]
+        //public async Task<ApiResult> GetUserAccessories()
+        //{
+        //    var userId = GetUserIDOfClaim();
+        //    if (userId!=null)
+        //    {
+                
+        //    }
+        //}
     }
 }

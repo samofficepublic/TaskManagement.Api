@@ -10,6 +10,7 @@ import Dialog from "react-bootstrap-dialog";
 class Login extends Component {
   txtEmail = "";
   txtPass = "";
+
   GoLogin = async () => {
     let data = {
       Email: this.txtEmail.value,
@@ -18,9 +19,13 @@ class Login extends Component {
 
     if (data.Email !== "" && data.password !== "" && data.Email.includes("@")) {
       let response = await Api_Login(data);
-      console.log(response);
-      this.props.login(response.data);
-      this.props.history.push("/home");
+      if (response != null) {
+        console.log("in if ");
+        this.props.login(response.data);
+        this.props.history.push("/home");
+      } else {
+        console.log(this.props.history);
+      }
     } else {
       this.dialog.show({
         title: "خطا",

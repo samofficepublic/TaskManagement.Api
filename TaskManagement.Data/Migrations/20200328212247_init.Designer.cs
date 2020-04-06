@@ -10,8 +10,8 @@ using TaskManagement.Data;
 namespace TaskManagement.Data.Migrations
 {
     [DbContext(typeof(MyAppContext))]
-    [Migration("20200308082721_add_Field_User")]
-    partial class add_Field_User
+    [Migration("20200328212247_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -20,6 +20,28 @@ namespace TaskManagement.Data.Migrations
                 .HasAnnotation("ProductVersion", "3.1.2")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("TaskManagement.Entity.DomainModels.Access", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("AccessComponent")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("AccessName")
+                        .HasColumnType("nvarchar(100)")
+                        .HasMaxLength(100);
+
+                    b.Property<string>("AccessRoute")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Accesses");
+                });
 
             modelBuilder.Entity("TaskManagement.Entity.DomainModels.Ticket", b =>
                 {
@@ -103,6 +125,43 @@ namespace TaskManagement.Data.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("TaskManagement.Entity.DomainModels.UserAccess", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("AccessId")
+                        .HasColumnType("int");
+
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AccessId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserAccesses");
+                });
+
+            modelBuilder.Entity("TaskManagement.Entity.DomainModels.UserAccess", b =>
+                {
+                    b.HasOne("TaskManagement.Entity.DomainModels.Access", "Access")
+                        .WithMany("Accesses")
+                        .HasForeignKey("AccessId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("TaskManagement.Entity.DomainModels.User", "User")
+                        .WithMany("Accesses")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

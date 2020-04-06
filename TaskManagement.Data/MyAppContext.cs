@@ -13,11 +13,16 @@ namespace TaskManagement.Data
             base.OnModelCreating(modelBuilder);
             modelBuilder.ApplyConfiguration(new UserConfig());
             modelBuilder.ApplyConfiguration(new TicketConfig());
+            modelBuilder.ApplyConfiguration(new AccessConfig());
+            modelBuilder.ApplyConfiguration(new UserAccessConfig());
+            
         }
 
         #region dbSets
         public DbSet<User> Users { get; set; }
         public DbSet<Ticket> Tickets { get; set; }
+        public DbSet<Access> Accesses { get; set; }
+        public DbSet<UserAccess> UserAccesses { get; set; }
         #endregion
     }
 }

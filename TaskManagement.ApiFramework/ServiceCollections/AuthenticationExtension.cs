@@ -48,6 +48,8 @@ namespace TaskManagement.ApiFramework.ServiceCollections
 
         public static void AddJwtAuthentication(this IServiceCollection services, JwtSettings jwtSettings )
         {
+            services.AddAuthorization();
+
             services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -93,19 +95,20 @@ namespace TaskManagement.ApiFramework.ServiceCollections
                             throw new ApiException(ApiResultStatusCode.UnAuthorized, "Authentication failed.", HttpStatusCode.Unauthorized, context.Exception, null);
 
                         return Task.CompletedTask;
-                    },
-
-                    OnChallenge = context =>
-                    {
-                        //var logger = context.HttpContext.RequestServices.GetRequiredService<ILoggerFactory>().CreateLogger(nameof(JwtBearerEvents));
-                        //logger.LogError("OnChallenge error", context.Error, context.ErrorDescription);
-
-                        if (context.AuthenticateFailure != null)
-                            throw new ApiException(ApiResultStatusCode.UnAuthorized, "Authenticate failure.", HttpStatusCode.Unauthorized, context.AuthenticateFailure, null);
-                        throw new ApiException(ApiResultStatusCode.UnAuthorized, "You are unauthorized to access this resource.", HttpStatusCode.Unauthorized);
-
-                        //return Task.CompletedTask;
                     }
+                    //,
+
+                    //OnChallenge = context =>
+                    //{
+                    //    //var logger = context.HttpContext.RequestServices.GetRequiredService<ILoggerFactory>().CreateLogger(nameof(JwtBearerEvents));
+                    //    //logger.LogError("OnChallenge error", context.Error, context.ErrorDescription);
+
+                    //    if (context.AuthenticateFailure != null)
+                    //        throw new ApiException(ApiResultStatusCode.UnAuthorized, "Authenticate failure.", HttpStatusCode.Unauthorized, context.AuthenticateFailure, null);
+                    //    throw new ApiException(ApiResultStatusCode.UnAuthorized, "You are unauthorized to access this resource.", HttpStatusCode.Unauthorized);
+
+                    //    //return Task.CompletedTask;
+                    //}
                 };
             });
         }
