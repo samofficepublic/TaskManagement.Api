@@ -38,6 +38,7 @@ class Tickets extends Component {
   description = "";
 
   GetTickets = async page => {
+    console.log(page);
     let result = await Ticket_Get(page, rowCount);
     if (result.data.apiResultStatusCode === 0) {
       this.props.Get_Dispatch(result.data.data);

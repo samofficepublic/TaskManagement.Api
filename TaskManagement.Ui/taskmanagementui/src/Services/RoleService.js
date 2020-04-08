@@ -1,1 +1,0 @@
-GetRole;

@@ -26,15 +26,22 @@ axiosConfig.interceptors.response.use(
     return response;
   },
   async error => {
-    let exception = error.response.status;
-    console.log(exception);
-    await processApiException(exception);
+    if (error.response) {
+      console.log(error.response);
+      let exception = error.response.status;
+      await processApiException(exception);
+    }
+    await processApiException(-1);
     return Promise.reject(error);
   }
 );
 
 const processApiException = async exception => {
   switch (exception) {
+    case -1: {
+      window.location.href = "/ServiceBroken/" + exception;
+      break;
+    }
     case 401: {
       localStorage.removeItem("LoginInfo");
       window.location.href = "/login";

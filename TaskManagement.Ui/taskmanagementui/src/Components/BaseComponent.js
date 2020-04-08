@@ -35,6 +35,7 @@ class BaseComponent extends Component {
         <Switch>
           <Route exact path="/" component={Login} />
           <Route path="/login" component={Login} />
+          <Route path="/ServiceBroken/:exception" component={ServiceBroken} />
           <Route path="/404" component={NotFound} />
           <Redirect to="/404" />
         </Switch>
