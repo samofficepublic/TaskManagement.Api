@@ -18,6 +18,8 @@ namespace TaskManagement.Data.EntityConfigs
             builder.Property(x => x.LastName).IsRequired(false).HasMaxLength(100);
             builder.Property(x => x.MobileNumber).IsRequired().HasMaxLength(11);
             builder.Property(x => x.Password).IsRequired().HasMaxLength(300);
+            builder.HasIndex(i => i.UniqueId).IsUnique().IsUnique();
+            builder.Property(p => p.UniqueId).HasDefaultValue(Guid.NewGuid());
         }
     }
 }

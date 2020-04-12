@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace TaskManagement.Data.Contracts.BaseInfoInitialize
 {
-    public abstract class DataSeedingRepository
+    public interface ISeedDataRepository
     {
-        public abstract Task InitializeData(CancellationToken cancellationToken);
+        public Task InitializeData(IUnitOfWork unitOfWork,CancellationToken cancellationToken);
     }
 }

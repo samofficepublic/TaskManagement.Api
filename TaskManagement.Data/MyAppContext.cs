@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using Microsoft.EntityFrameworkCore;
 using TaskManagement.Data.EntityConfigs;
 using TaskManagement.Entity.DomainModels;
 
@@ -11,11 +12,15 @@ namespace TaskManagement.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            modelBuilder.ApplyConfiguration(new UserConfig());
-            modelBuilder.ApplyConfiguration(new TicketConfig());
-            modelBuilder.ApplyConfiguration(new AccessConfig());
-            modelBuilder.ApplyConfiguration(new UserAccessConfig());
-            
+
+            modelBuilder
+                .ApplyConfigurationsFromAssembly(typeof(MyAppContext).Assembly);
+
+            //modelBuilder.ApplyConfiguration(new UserConfig());
+            //modelBuilder.ApplyConfiguration(new TicketConfig());
+            //modelBuilder.ApplyConfiguration(new AccessConfig());
+            //modelBuilder.ApplyConfiguration(new UserAccessConfig());
+
         }
 
         #region dbSets

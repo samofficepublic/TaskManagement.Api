@@ -58,7 +58,6 @@ namespace TaskManagement.Api.Controllers.V1
         [AllowAnonymous]
         public async Task<ActionResult> TokenByEmail([FromBody]EmailLoginDto login, CancellationToken cancellation)
         {
-
             if (login != null)
             {
                 var user = new User()

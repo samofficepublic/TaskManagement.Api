@@ -13,7 +13,7 @@ namespace TaskManagement.Data.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    AccessName = table.Column<string>(maxLength: 100, nullable: true),
+                    AccessName = table.Column<string>(type: "NVarChar(100)", maxLength: 100, nullable: true),
                     AccessRoute = table.Column<string>(nullable: true),
                     AccessComponent = table.Column<string>(nullable: true)
                 },
@@ -28,6 +28,7 @@ namespace TaskManagement.Data.Migrations
                 {
                     ID = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    UniqueId = table.Column<Guid>(nullable: false, defaultValue: new Guid("9b870b41-c7ed-4691-bfae-538f51775634")),
                     CreateDate = table.Column<DateTime>(nullable: false),
                     CreateBy = table.Column<long>(nullable: true),
                     ModifyDate = table.Column<DateTime>(nullable: false),
@@ -46,6 +47,7 @@ namespace TaskManagement.Data.Migrations
                 {
                     ID = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    UniqueId = table.Column<Guid>(nullable: false, defaultValue: new Guid("16c9ba19-2345-402c-83c0-901a4f31cfe0")),
                     CreateDate = table.Column<DateTime>(nullable: false),
                     CreateBy = table.Column<long>(nullable: true),
                     ModifyDate = table.Column<DateTime>(nullable: false),
@@ -90,6 +92,12 @@ namespace TaskManagement.Data.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_Tickets_UniqueId",
+                table: "Tickets",
+                column: "UniqueId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_UserAccesses_AccessId",
                 table: "UserAccesses",
                 column: "AccessId");
@@ -98,6 +106,12 @@ namespace TaskManagement.Data.Migrations
                 name: "IX_UserAccesses_UserId",
                 table: "UserAccesses",
                 column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Users_UniqueId",
+                table: "Users",
+                column: "UniqueId",
+                unique: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

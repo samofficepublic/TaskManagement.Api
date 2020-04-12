@@ -10,14 +10,14 @@ using TaskManagement.Data;
 namespace TaskManagement.Data.Migrations
 {
     [DbContext(typeof(MyAppContext))]
-    [Migration("20200328212247_init")]
+    [Migration("20200411201037_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.2")
+                .HasAnnotation("ProductVersion", "3.1.3")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -32,7 +32,7 @@ namespace TaskManagement.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("AccessName")
-                        .HasColumnType("nvarchar(100)")
+                        .HasColumnType("NVarChar(100)")
                         .HasMaxLength(100);
 
                     b.Property<string>("AccessRoute")
@@ -70,7 +70,15 @@ namespace TaskManagement.Data.Migrations
                         .HasColumnType("nvarchar(250)")
                         .HasMaxLength(250);
 
+                    b.Property<Guid>("UniqueId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValue(new Guid("9b870b41-c7ed-4691-bfae-538f51775634"));
+
                     b.HasKey("ID");
+
+                    b.HasIndex("UniqueId")
+                        .IsUnique();
 
                     b.ToTable("Tickets");
                 });
@@ -122,7 +130,15 @@ namespace TaskManagement.Data.Migrations
                         .HasColumnType("nvarchar(300)")
                         .HasMaxLength(300);
 
+                    b.Property<Guid>("UniqueId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValue(new Guid("16c9ba19-2345-402c-83c0-901a4f31cfe0"));
+
                     b.HasKey("ID");
+
+                    b.HasIndex("UniqueId")
+                        .IsUnique();
 
                     b.ToTable("Users");
                 });
